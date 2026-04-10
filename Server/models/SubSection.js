@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const subSectionSchema = mongoose.Schema({
+const subSectionSchema = new mongoose.Schema({
     title:{
         type:String,
     },
