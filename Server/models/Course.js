@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const courseSchema = mongoose.Schema({
+const courseSchema = new mongoose.Schema({
     courseName:{
         type:String,
         trim:true,
@@ -26,7 +26,7 @@ const courseSchema = mongoose.Schema({
     ratingAndReviews:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"RatingAndReviews",
+            ref:"RatingAndReview",
         }
     ],
     price:{
