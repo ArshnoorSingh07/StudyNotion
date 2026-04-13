@@ -1,5 +1,5 @@
 const Course = require('../models/Course');
-const Tag = require('../models/Tags');
+const Category = require('../models/Category');
 const User = require('../models/User');
 const {uploadImageToCloudinary} = require('../utils/imageUploader');
 require('dotenv').config();
@@ -9,13 +9,13 @@ exports.createCourse = async(req,res) => {
     try{
 
         // fetch Data
-        const {courseName, courseDescription, whatYouWillLearn, price, tag} = req.body;
+        const {courseName, courseDescription, whatYouWillLearn, price, category} = req.body;
 
         // get Thumbnail
         const thumbnail = req.files.thumbnailImage;
 
         // Validation
-        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !tag || !thumbnail){
+        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail){
             return res.status(400).json({
                 success:false,
                 message:"All fields are required",
@@ -35,12 +35,12 @@ exports.createCourse = async(req,res) => {
             });
         }
 
-        // check given tag is valid or not
-        const tagDetails = await Tag.findById(tag);
-        if(!tagDetails){
+        // check given Category is valid or not
+        const categoryDetails = await Category.findById(category);
+        if(!categoryDetails){
             return res.status(404).json({
                 success:false,
-                message:"Tag details not Found",
+                message:"Category details not Found",
             });
         }
 
@@ -55,7 +55,7 @@ exports.createCourse = async(req,res) => {
                 instructor: instructorDetails._id,
                 whatYouWillLearn,
                 price,
-                tag: tagDetails._id,
+                category: categoryDetails._id,
                 thumbnail: thumbnailImage.secure_url,
             }
         );
@@ -71,9 +71,9 @@ exports.createCourse = async(req,res) => {
             {new:true},
         );
 
-        // update Tag Schema
-        await Tag.findByIdAndUpdate(
-            { _id: tagDetails._id },
+        // update category Schema
+        await Category.findByIdAndUpdate(
+            { _id: categoryDetails._id },
             {
                 $push: {
                     course: newCourse._id,
