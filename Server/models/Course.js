@@ -3,16 +3,14 @@ const mongoose = require('mongoose');
 const courseSchema = new mongoose.Schema({
     courseName:{
         type:String,
-        trim:true,
     },
     courseDescription:{
         type:String,
-        trim:true,
     },
     instructor:{
         type : mongoose.Schema.Types.ObjectId,
-        ref : "User",
         required:true,
+        ref : "User",
     },
     whatYouWillLearn:{
         type:String,
@@ -41,6 +39,7 @@ const courseSchema = new mongoose.Schema({
     },
     tag : {
         type:String,
+        required:true,
     },
     studentsEnrolled:[
         {
@@ -48,6 +47,13 @@ const courseSchema = new mongoose.Schema({
             ref:"User",
         }
     ],
+    instructions: {
+		type: [String],
+	},
+	status: {
+		type: String,
+		enum: ["Draft", "Published"],
+	},
 
 });
 
