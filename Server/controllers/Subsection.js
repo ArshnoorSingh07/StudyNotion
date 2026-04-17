@@ -4,7 +4,7 @@ const { uploadImageToCloudinary } = require('../utils/imageUploader');
 require('dotenv').config();
 
 // create subSection
-exports.createSubsection = async(req, res)=> {
+exports.createSubSection = async(req, res)=> {
     try{
 
         // fetch data from req body
@@ -63,7 +63,7 @@ exports.createSubsection = async(req, res)=> {
 
 
 // update Subsection 
-exports.updateSubsection = async (req, res) => {
+exports.updateSubSection = async (req, res) => {
     try {
         const { subsectionId, title, timeDuration, description } = req.body;
 
@@ -120,7 +120,7 @@ exports.updateSubsection = async (req, res) => {
 };
 
 // delete Subsection
-exports.deleteSubsection = async (req, res) => {
+exports.deleteSubSection = async (req, res) => {
     try {
         const { subsectionId, sectionId } = req.body;
 
