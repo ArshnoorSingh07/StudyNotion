@@ -85,6 +85,8 @@ exports.getAllUserDetails = async (req, res) => {
     }
 };
 
+// updateDisplayPicture
+
 exports.updateDisplayPicture = async (req, res) => {
     try {
       const displayPicture = req.files.displayPicture
@@ -113,7 +115,7 @@ exports.updateDisplayPicture = async (req, res) => {
       })
     }
 };
-  
+
 exports.getEnrolledCourses = async (req, res) => {
     try {
       const userId = req.user.id
