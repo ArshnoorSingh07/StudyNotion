@@ -148,3 +148,56 @@ exports.getAllCourses = async (req, res) => {
         });
     }
 };
+
+// get Course Details
+exports.getCourseDetails = async(req, res) => {
+    try{
+
+        // get Id
+        const {courseId} = req.body;
+
+        // find course details
+        const courseDetails = await Course.find(
+                                                {_id : courseId})
+                                                .populate(
+                                                    {
+                                                        path:"instructor",
+                                                        populate:{
+                                                            path:"additionalDetails",
+                                                        }
+                                                    }
+                                                )
+                                                .populate("category")
+                                                .populate("ratingAndreviews")
+                                                .populate({
+                                                    path:"courseContent",
+                                                    populate:{
+                                                        path:"subSection"
+                                                    },
+                                                })
+                                                .exec();
+
+        // Data Validation
+        if(!courseDetails){
+            return res.status(400).json({
+                success:false,
+                message:`Could not find the course with ${courseId}`,
+            });
+        }
+
+
+        // return response
+        return res.status(200).json({
+            success:true,
+            message:"Course details fetched successfully",
+        })
+
+    } catch (error) {
+        console.log("Error while fetching courseDetails : ",error);
+        return res.status(500).json({
+            success:false,
+            message:"Error while fetching courseDetails",
+            error:error.message,
+        })
+    }
+}
