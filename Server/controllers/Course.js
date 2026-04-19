@@ -168,7 +168,7 @@ exports.getCourseDetails = async(req, res) => {
                                                     }
                                                 )
                                                 .populate("category")
-                                                .populate("ratingAndreviews")
+                                                // .populate("ratingAndreviews")
                                                 .populate({
                                                     path:"courseContent",
                                                     populate:{
@@ -190,6 +190,7 @@ exports.getCourseDetails = async(req, res) => {
         return res.status(200).json({
             success:true,
             message:"Course details fetched successfully",
+            data:courseDetails,
         })
 
     } catch (error) {
