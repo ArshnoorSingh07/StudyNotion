@@ -1,5 +1,6 @@
 const Section = require("../models/Section");
 const Course = require("../models/Course");
+const Subsection = require('../models/SubSection');
 // CREATE a new section
 exports.createSection = async (req, res) => {
     try {
@@ -76,12 +77,57 @@ exports.updateSection = async (req, res) => {
 // DELETE a section
 exports.deleteSection = async (req, res) => {
     try {
-        const { sectionId } = req.params;
-        await Section.findByIdAndDelete(sectionId);
-        res.status(200).json({
-            success: true,
-            message: "Section deleted",
+        const { sectionId, courseId } = req.body;
+
+        // validation
+        if (!sectionId || !courseId) {
+            return res.status(400).json({
+                success: false,
+                message: "SectionId and CourseId are required",
+            });
+        }
+
+        // validation
+        const section = await Section.findById(sectionId);
+        if (!section) {
+            return res.status(404).json({
+                success: false,
+                message: "Section not found",
+            });
+        }
+
+        // delete all subsections inside this section
+        await Subsection.deleteMany({
+            _id: { $in: section.subSection },
         });
+
+        // delete section
+        await Section.findByIdAndDelete(sectionId);
+
+        // remove section from course
+        const updatedCourse = await Course.findByIdAndUpdate(
+            courseId,
+            {
+                $pull: {
+                    courseContent: sectionId,
+                },
+            },
+            { new: true }
+        )
+        .populate({
+            path: "courseContent",
+            populate: {
+                path: "subSection",
+            },
+        })
+        .exec();
+
+        return res.status(200).json({
+            success: true,
+            message: "Section deleted successfully",
+            data: updatedCourse,
+        });
+
     } catch (error) {
         console.error("Error deleting section:", error);
         res.status(500).json({
