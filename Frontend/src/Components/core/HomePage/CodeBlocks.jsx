@@ -19,20 +19,36 @@ const CodeBlocks = ({
     useEffect(() => {
 
         let currentIndex = 0;
+        let interval;
 
-        const interval = setInterval(() => {
+        const startTyping = () => {
 
-            setText(codeblock.slice(0, currentIndex + 1));
+            interval = setInterval(() => {
 
-            currentIndex++;
+                setText(codeblock.slice(0, currentIndex + 1));
 
-            // Restart typing infinitely
-            if (currentIndex > codeblock.length) {
-                currentIndex = 0;
-                setText("");
-            }
+                currentIndex++;
 
-        }, 50);
+                // Stop at end
+                if (currentIndex > codeblock.length) {
+
+                    clearInterval(interval);
+
+                    // Pause for 2 seconds
+                    setTimeout(() => {
+
+                        currentIndex = 0;
+                        setText("");
+
+                        startTyping();
+
+                    }, 2000);
+                }
+
+            }, 50);
+        };
+
+        startTyping();
 
         return () => clearInterval(interval);
 
@@ -79,17 +95,25 @@ const CodeBlocks = ({
 
             <div className='relative flex w-[100%] py-4 lg:w-[500px]'>
 
-                {/* Background Gradient Blur */}
-
-                <div className='absolute inset-0 bg-gradient-to-r from-yellow-500/20 via-transparent to-blue-500/20 blur-2xl'></div>
 
                 {/* Main Code Box */}
 
-                <div className='relative flex w-full rounded-xl0 overflow-hidden'>
+                <div
+                    className='relative flex w-full rounded-2xl
+                    border border-white/10
+                    bg-gradient-to-br from-[#0f172a] via-[#0b1f35] to-[#020617]
+                    backdrop-blur-sm
+                    shadow-[0_0_40px_rgba(59,130,246,0.15)]
+                    overflow-hidden'
+                >
 
                     {/* Line Numbers */}
 
-                    <div className='flex flex-col items-center px-4 py-4 text-richblack-400 font-inter font-bold'>
+                    <div
+                        className='flex flex-col items-center px-4 py-4
+                        text-richblack-400 font-inter font-bold
+                        bg-white/5 border-r border-white/10'
+                    >
 
                         <p>1</p>
                         <p>2</p>
@@ -108,7 +132,10 @@ const CodeBlocks = ({
 
                     {/* Code Content */}
 
-                    <div className='py-4 pr-4 text-sm font-mono font-bold w-full overflow-x-auto overflow-y-hidden'>
+                    <div
+                        className='py-4 pr-6 pl-4 text-sm font-mono font-bold
+                        w-full overflow-x-auto overflow-y-hidden'
+                    >
 
                         <pre className={`whitespace-pre-wrap break-words max-w-full leading-6 ${codeColor}`}>
 
