@@ -7,13 +7,15 @@ import Banner from '../assets/Images/banner.mp4';
 import CodeBlocks from '../Components/core/HomePage/CodeBlocks';
 import TimeLineSection from '../Components/core/HomePage/TimeLineSection';
 import LearningLanguageSection from '../Components/core/HomePage/LearningLanguageSection';
+import InstructorSection from '../Components/core/HomePage/InstructorSection';
+import Footer from '../Components/common/Footer';
+import ExploreMore from '../Components/core/HomePage/ExploreMore';
 
 const Home = () => {
   return (
     <div>
 
         {/* Section 1 */}
-
         <div className='relative mx-auto flex flex-col w-11/12 max-w-maxContent items-center text-white justify-between'>
 
             <Link to={"/signup"}>
@@ -128,7 +130,7 @@ const Home = () => {
 <a href="three/">Three</a>
 </nav>`}
 
-                    codeColor={"text-white"}
+                    codeColor={"text-[#E2E8F0]"}
 
                 />
 
@@ -189,11 +191,13 @@ const Home = () => {
 <a href="three/">Three</a>
 </nav>`}
 
-                    codeColor={"text-white"}
+                    codeColor={"text-[#E2E8F0]"}
 
                 />
 
             </div>
+
+            <ExploreMore/>
 
         </div>
 
@@ -234,7 +238,7 @@ const Home = () => {
                             Today, to be a competitive specialist requires more than professional skills.
                         </div>
                         <CTAButton active={true} linkto={'/signup'}>
-                            Learn more
+                            Learn More
                         </CTAButton>
                     </div>
                 </div>
@@ -249,8 +253,21 @@ const Home = () => {
         </div>
 
         {/* Section 3 */}
+        <div className='w-11/12 mx-auto max-w-maxContent flex flex-col items-center justify-between gap-8
+            bg-richblack-900 text-white'>
+
+            <InstructorSection />
+
+            <h2 className='text-center text-4xl font-semibold mt-10'>
+                Reviews from other learners
+            </h2>
+
+            {/* Review Slider Here */}
+
+        </div>
 
         {/* Footer */}
+        <Footer/>
 
     </div>
   )
