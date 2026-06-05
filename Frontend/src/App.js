@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from './pages/Home';
 import Navbar from "./Components/common/Navbar";
 import OpenRoute from './Components/core/Auth/OpenRoute'
@@ -10,8 +10,22 @@ import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
 import Contact from './pages/Contact';
+import MyProfile from "./Components/core/Dashboard/MyProfile";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./Components/core/Auth/PrivateRoute";
+import Error from './pages/Error';
+import Settings from './Components/core/Dashboard/Settings'
+import EnrolledCourses from "./Components/core/Dashboard/EnrolledCourses";
+import Cart from "./Components/core/Dashboard/Cart";
+import { ACCOUNT_TYPE } from "./utils/constants";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+    
+  const { user } = useSelector((state) => state.profile)
   return (
    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
     <Navbar/>
@@ -65,9 +79,7 @@ function App() {
       <Route
             path="about"
             element={
-              <OpenRoute>
-                <About />
-              </OpenRoute>
+                <About/>
             }
           />
       
@@ -75,6 +87,30 @@ function App() {
         path="/contact"
         element={<Contact/>}
       />
+      
+      <Route
+        element={
+            <PrivateRoute>
+                <Dashboard/>
+            </PrivateRoute>
+        }
+      >
+        <Route path="dashboard/my-profile" element={<MyProfile/>} />
+        <Route path="dashboard/settings" element={<Settings/>}/>
+        
+        {
+          user?.accountType === ACCOUNT_TYPE.STUDENT && (
+            <>
+              <Route path="dashboard/cart" element={<Cart/>} />
+              <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>} />
+            </>
+          )
+        }
+
+
+      </Route>
+
+      <Route path="*" element={<Error/>}/>
     
     </Routes>
 
