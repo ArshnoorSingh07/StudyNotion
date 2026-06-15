@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddCourse from "./Components/core/Dashboard/AddCourse";
 import MyCourses from "./Components/core/Dashboard/AddCourse/MyCourses";
 import EditCourse from "./Components/core/Dashboard/AddCourse/EditCourse";
+import Catalog from "./pages/Catalog";
 
 function App() {
 
@@ -34,6 +35,8 @@ function App() {
     <Navbar/>
     <Routes>
       <Route path="/" element={<Home/>} />
+      <Route path="/catalog/:catalogName" element={<Catalog/>} />
+
       <Route
           path="signup"
           element={
