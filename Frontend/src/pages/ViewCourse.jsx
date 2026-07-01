@@ -4,6 +4,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import { getFullDetailsOfCourse } from '../services/operations/courseDetailsAPI';
 import { setCompletedLectures, setCourseSectionData, setEntireCourseData, setTotalNoOfLectures } from '../slices/viewCourseSlice';
 import VideoDetailsSidebar from '../Components/core/ViewCourse/VideoDetailsSidebar';
+import CourseReviewModal from '../Components/core/ViewCourse/CourseReviewModal';
 
 const ViewCourse = () => {
 
