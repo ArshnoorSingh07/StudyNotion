@@ -14,18 +14,17 @@ const CourseSlider = ({Courses}) => {
             Courses?.length ? (
                 <Swiper
                     slidesPerView={1}
+                    spaceBetween={25}
                     loop={true}
-                    spaceBetween={50}
-                    pagination={true}
                     modules={[Autoplay,Pagination]}
-                    className="mySwiper"
                     autoplay={{
-                    delay: 1000,
+                    delay: 1500,
                     disableOnInteraction: false,
                     }}
                     breakpoints={{
                       1024:{slidesPerView:3}
                     }}
+                    className="max-h-[30rem]"
                 >
                     {
                         Courses?.map((course, index)=> (
@@ -36,7 +35,7 @@ const CourseSlider = ({Courses}) => {
                     }   
                 </Swiper>
             ) : (
-                <p>No Course Found</p>
+                <p className="text-xl text-richblack-5">No Course Found</p>
             )
 
         }
