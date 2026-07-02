@@ -1,10 +1,13 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import copy from 'copy-to-clipboard';
-import toast from 'react-hot-toast';
-import { ACCOUNT_TYPE } from '../../../utils/constants';
-import { addToCart } from '../../../slices/cartSlice';
+import React from "react"
+import copy from "copy-to-clipboard"
+import { toast } from "react-hot-toast"
+import { BsFillCaretRightFill } from "react-icons/bs"
+import { FaShareSquare } from "react-icons/fa"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+
+import { addToCart } from "../../../slices/cartSlice"
+import { ACCOUNT_TYPE } from "../../../utils/constants"
 
 function CourseDetailsCard({course, setConfirmationModal, handleBuyCourse}){
 
