@@ -27,7 +27,7 @@ const VideoDetails = () => {
     const setVideoSpecificDetails = async () => {
       if(!courseSectionData.length)
         return;
-      if(!courseId && !sectionId && !subSectionId){
+      if(!courseId || !sectionId || !subSectionId){
         navigate('/dashboard/enrolled-courses');
       }
       else{
@@ -41,7 +41,7 @@ const VideoDetails = () => {
           (data) => data._id === subSectionId
         )
         
-        setVideoData(filteredData[0]);
+        setVideoData(filteredVideoData[0]);
         setVideoEnded(false);
       }
     }
@@ -56,7 +56,7 @@ const VideoDetails = () => {
       (data) => data._id === sectionId
     )
 
-    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSectionId.findIndex(
+    const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSection.findIndex(
       (data) => data._id === subSectionId
     )
 
@@ -131,7 +131,7 @@ const VideoDetails = () => {
 
     if(currentSubSectionIndex !== 0 ){
       // Same section previous Video
-      const previousSubSectionId = courseSectionData[currentSectionIndex].subSection[currentSubSectionIndex - 1];
+      const previousSubSectionId = courseSectionData[currentSectionIndex].subSection[currentSubSectionIndex - 1]._id;
       navigate(`/view-course/${courseId}/section/${sectionId}/sub-section/${previousSubSectionId}`);
     }
     else{
@@ -172,7 +172,7 @@ const VideoDetails = () => {
             ref = {playerRef}
             aspectRatio = "16:9"
             playsInLine
-            onEnded = { () => setVideoData(true)}
+            onEnded={() => setVideoEnded(true)}
             src={videoData?.videoUrl}
           >
             <FaPlayCircle />
@@ -207,7 +207,7 @@ const VideoDetails = () => {
                       !isFirstVideo() && (
                         <button
                           disabled={loading}
-                          onclick={goToPrevVideo}
+                          onClick={goToPrevVideo}
                           className='blackButton'
                         >
                           Prev
@@ -218,7 +218,7 @@ const VideoDetails = () => {
                       !isLastVideo() && (
                         <button
                           disabled={loading}
-                          onclick={goToNextVideo}
+                          onClick={goToNextVideo}
                           className='blackButton'
                         >
                           Next
