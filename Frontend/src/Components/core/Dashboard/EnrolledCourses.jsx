@@ -53,11 +53,6 @@ export default function EnrolledCourses() {
               <div
                 className="flex w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
                 onClick={() => {
-                console.log("Course:", course);
-                console.log("courseContent:", course.courseContent);
-                console.log("First Section:", course.courseContent?.[0]);
-                console.log("First SubSection:", course.courseContent?.[0]?.subSection?.[0]);
-
                 navigate(
                   `/view-course/${course?._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`
                 );
