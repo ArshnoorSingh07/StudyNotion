@@ -44,7 +44,7 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
 
   return (
     <>
-        <div>
+        <div className='text-white'>
             {/* for buttons and headings */}
             <div>
                 {/* for buttons */}
@@ -103,8 +103,7 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
                                                 key={index}
                                                 onClick={() => {
                                                     navigate(
-                                                        `/view-course/${courseEntireData?._id}/section/${section?._id}/
-                                                        sub-section${topic?._id}/`
+                                                    `/view-course/${courseEntireData?._id}/section/${section?._id}/sub-section/${topic?._id}`
                                                     )
                                                     setVideobarActive(topic?._id);
                                                 }}
