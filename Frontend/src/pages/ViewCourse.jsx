@@ -24,7 +24,7 @@ const ViewCourse = () => {
             courseData?.courseDetails?.courseContent?.forEach((sec) => {
                 lectures += sec.subSection.length
             })
-            dispatch(setTotalNoOfLectures);
+            dispatch(setTotalNoOfLectures(lectures));
         }
 
         setCourseSpecificDetails();
