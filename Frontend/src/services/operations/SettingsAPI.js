@@ -33,8 +33,10 @@ export function updateDisplayPicture(token, formData) {
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
-      toast.success("Display Picture Updated Successfully")
-      dispatch(setUser(response.data.data))
+      toast.success("Display Picture Updated Successfully");
+
+      dispatch(setUser(response.data.data));
+      localStorage.setItem("user", JSON.stringify(response.data.data));
     } catch (error) {
       console.log("UPDATE_DISPLAY_PICTURE_API API ERROR............", error)
       toast.error("Could Not Update Display Picture")
@@ -58,10 +60,16 @@ export function updateProfile(token, formData) {
       const userImage = response.data.updatedUserDetails.image
         ? response.data.updatedUserDetails.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.updatedUserDetails.firstName} ${response.data.updatedUserDetails.lastName}`
-      dispatch(
-        setUser({ ...response.data.updatedUserDetails, image: userImage })
-      )
+      const updatedUser = {
+        ...response.data.updatedUserDetails,
+        image: userImage,
+      }
+
+      dispatch(setUser(updatedUser))
+      localStorage.setItem("user", JSON.stringify(updatedUser))
+
       toast.success("Profile Updated Successfully")
+      
     } catch (error) {
       console.log("UPDATE_PROFILE_API API ERROR............", error)
       toast.error("Could Not Update Profile")
