@@ -25,12 +25,36 @@ exports.resetPasswordToken = async (req, res) => {
         );
         console.log("DETAILS", updatedDetails);
 
-        const url = `http://localhost:3000/update-password/${token}`;
+        const frontendURL = process.env.FRONTEND_URL || "http://localhost:3000";
+        const url = `${frontendURL}/update-password/${token}`;
 
         await mailSender(
-            email,
-            "Password Reset",
-            `Your Link for email verification is ${url}. Please click this url to reset your password.`
+        email,
+        "Password Reset",
+        `
+            <h2>Password Reset Request</h2>
+
+            <p>You requested to reset your password.</p>
+
+            <p>Click the button below:</p>
+
+            <a href="${url}"
+            style="
+                display:inline-block;
+                padding:12px 20px;
+                background:#FFD60A;
+                color:#000;
+                text-decoration:none;
+                border-radius:5px;
+                font-weight:bold;
+            ">
+            Reset Password
+            </a>
+
+            <p>This link will expire in <b>1 hour</b>.</p>
+
+            <p>If you didn't request this, ignore this email.</p>
+        `
         );
 
         res.json({
