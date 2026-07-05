@@ -386,9 +386,12 @@ export const createRating = async (data, token) => {
     toast.success("Rating Created")
     success = true
   } catch (error) {
-    success = false
-    console.log("CREATE RATING API ERROR............", error)
-    toast.error(error.message)
+    success = false;
+    console.log("CREATE RATING API ERROR............", error);
+
+    toast.error(
+      error.response?.data?.message || "Something went wrong"
+    );
   }
   toast.dismiss(toastId)
   return success
