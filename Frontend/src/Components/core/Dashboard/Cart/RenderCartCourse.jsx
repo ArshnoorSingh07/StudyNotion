@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { VscStarFull } from 'react-icons/vsc';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { removeFromCart } from '../../../../slices/cartSlice';
-import ReactStars from 'react-star-rating-component';
+import ReactStars from 'react-stars'
 import { FaStar } from "react-icons/fa";
 
 
