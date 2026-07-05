@@ -27,13 +27,13 @@ const mailSender = async (email, title, body) => {
       }
     );
 
-    console.log("✅ Email sent successfully");
+    console.log("Email sent successfully");
     console.log(response.data);
 
     return response.data;
   } catch (error) {
     console.error(
-      "❌ Brevo Error:",
+      "Brevo Error:",
       error.response?.data || error.message
     );
     throw error;
