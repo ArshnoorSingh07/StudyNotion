@@ -10,6 +10,7 @@ import LearningLanguageSection from '../Components/core/HomePage/LearningLanguag
 import InstructorSection from '../Components/core/HomePage/InstructorSection';
 import Footer from '../Components/common/Footer';
 import ExploreMore from '../Components/core/HomePage/ExploreMore';
+import ReviewSlider from '../Components/common/ReviewSlider';
 
 const Home = () => {
   return (
@@ -253,16 +254,17 @@ const Home = () => {
         </div>
 
         {/* Section 3 */}
-        <div className='w-11/12 mx-auto max-w-maxContent flex flex-col items-center justify-between gap-8
-            bg-richblack-900 text-white'>
-
+        <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
+            {/* Become a instructor section */}
             <InstructorSection />
 
-            <h2 className='text-center text-4xl font-semibold mt-10'>
+            {/* Reviws from Other Learner */}
+            <h2 className="text-center text-4xl font-semibold mt-8">
                 Reviews from other learners
             </h2>
 
             {/* Review Slider Here */}
+            <ReviewSlider/>
 
         </div>
 
