@@ -3,6 +3,7 @@ import React from "react"
 import Footer from "../Components/common/Footer"
 import ContactDetails from "../Components/core/ContactPage/ContactDetails"
 import ContactForm from "../Components/core/ContactPage/ContactUsForm"
+import ReviewSlider from "../Components/common/ReviewSlider"
 
 const Contact = () => {
   return (
@@ -23,7 +24,7 @@ const Contact = () => {
         <h1 className="text-center text-4xl font-semibold mt-8">
           Reviews from other learners
         </h1>
-        {/* <ReviewSlider /> */}
+        <ReviewSlider />
       </div>
       <Footer />
     </div>
