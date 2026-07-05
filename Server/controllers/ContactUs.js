@@ -10,6 +10,21 @@ exports.contactUsController = async (req, res) => {
       "Your Data send successfully",
       contactUsEmail(email, firstname, lastname, message, phoneNo, countrycode)
     )
+
+    // Send contact details to yourself
+    await mailSender(
+      process.env.BREVO_SENDER_EMAIL,
+      "New Contact Form Submission",
+      `
+        <h2>New Contact Request</h2>
+        <p><strong>Name:</strong> ${firstname} ${lastname}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${countrycode} ${phoneNo}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `
+    );
+
     console.log("Email Res ", emailRes)
     return res.json({
       success: true,
