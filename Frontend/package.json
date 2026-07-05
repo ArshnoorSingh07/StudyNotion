@@ -23,7 +23,6 @@
     "react-redux": "^9.3.0",
     "react-router-dom": "^7.15.1",
     "react-scripts": "5.0.1",
-    "react-star-rating-component": "^1.4.1",
     "react-stars": "^2.2.5",
     "react-super-responsive-table": "^6.0.2",
     "redux-toolkit": "^1.1.2",
