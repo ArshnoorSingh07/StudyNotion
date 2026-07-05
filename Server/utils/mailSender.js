@@ -1,35 +1,41 @@
-const nodemailer = require("nodemailer");
+const axios = require("axios");
+require("dotenv").config();
 
 const mailSender = async (email, title, body) => {
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST || "smtp.gmail.com",
-      port: Number(process.env.MAIL_PORT) || 587,
-      secure: false, 
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: process.env.BREVO_SENDER_NAME,
+          email: process.env.BREVO_SENDER_EMAIL,
+        },
+        to: [
+          {
+            email,
+          },
+        ],
+        subject: title,
+        htmlContent: body,
       },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+      {
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+        },
+      }
+    );
 
-    // Verify SMTP connection
-    await transporter.verify();
-    console.log("SMTP Server Connected");
+    console.log("✅ Email sent successfully");
+    console.log(response.data);
 
-    const info = await transporter.sendMail({
-      from: `"StudyNotion" <${process.env.MAIL_USER}>`,
-      to: email,
-      subject: title,
-      html: body,
-    });
-
-    console.log("Email sent:", info.messageId);
-    return info;
+    return response.data;
   } catch (error) {
-    console.error("Mail Sender Error:", error);
+    console.error(
+      "❌ Brevo Error:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
