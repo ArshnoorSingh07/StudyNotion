@@ -300,7 +300,7 @@ npm start
 
 GitHub: https://github.com/ArshnoorSingh07
 
-LinkedIn: https://www.linkedin.com/in/arshnoor-singh/
+LinkedIn: https://www.linkedin.com/in/arshnoor-singh-785b5a2aa/
 
 ---
 
