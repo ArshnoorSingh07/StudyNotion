@@ -435,4 +435,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 **Arshnoor Singh**
 
 - GitHub: https://github.com/ArshnoorSingh07
-- LinkedIn: https://www.linkedin.com/in/arshnoor-singh-785b5a2aa/
+- LinkedIn: https://www.linkedin.com/in/arshnoor-singh1/
