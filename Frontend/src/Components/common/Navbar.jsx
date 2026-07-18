@@ -19,6 +19,18 @@ function Navbar() {
 
   const [subLinks, setSubLinks] = useState([])
   const [loading, setLoading] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
 
   useEffect(() => {
     ;(async () => {
@@ -39,15 +51,31 @@ function Navbar() {
     return matchPath({ path: route }, location.pathname)
   }
 
+  const handleNavigation = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 0);
+  };
+
   return (
     <div
-      className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
-        location.pathname !== "/" ? "bg-richblack-800" : ""
-      } transition-all duration-200`}
+      className={`fixed top-0 left-0 right-0 z-50 flex h-14 items-center justify-center border-b border-richblack-700 transition-all duration-300 ${
+        isScrolled
+          ? "bg-richblack-900/50 backdrop-blur-xl border-b border-richblack-700 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+          : location.pathname !== "/"
+          ? "bg-richblack-800"
+          : "bg-transparent"
+      }`}
     >
       <div className="flex w-11/12 max-w-maxContent items-center justify-between">
         {/* Logo */}
-        <Link to="/">
+        <Link
+          to="/"
+          onClick={handleNavigation}
+        >
           <img src={logo} alt="Logo" width={160} height={32} loading="lazy" />
         </Link>
         {/* Navigation links */}
@@ -76,9 +104,10 @@ function Navbar() {
                               ?.map((subLink, i) => (
                                 <Link
                                   to={`/catalog/${subLink.name
-                                    .split(" ")
-                                    .join("-")
-                                    .toLowerCase()}`}
+                                  .split(" ")
+                                  .join("-")
+                                  .toLowerCase()}`}
+                                  onClick={handleNavigation}
                                   className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
                                   key={i}
                                 >
@@ -93,7 +122,10 @@ function Navbar() {
                     </div>
                   </>
                 ) : (
-                  <Link to={link?.path}>
+                  <Link
+                      to={link?.path}
+                      onClick={handleNavigation}
+                    >
                     <p
                       className={`${
                         matchRoute(link?.path)
@@ -112,7 +144,7 @@ function Navbar() {
         {/* Login / Signup / Dashboard */}
         <div className="hidden items-center gap-x-4 md:flex">
           {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
-            <Link to="/dashboard/cart" className="relative">
+            <Link to="/dashboard/cart" className="relative" onClick={handleNavigation}>
               <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
               {totalItems > 0 && (
                 <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
@@ -122,14 +154,14 @@ function Navbar() {
             </Link>
           )}
           {token === null && (
-            <Link to="/login">
+            <Link to="/login" onClick={handleNavigation}>
               <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
                 Log in
               </button>
             </Link>
           )}
           {token === null && (
-            <Link to="/signup">
+            <Link to="/signup" onClick={handleNavigation}>
               <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
                 Sign up
               </button>
