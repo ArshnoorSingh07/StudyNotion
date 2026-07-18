@@ -62,12 +62,10 @@ function Navbar() {
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 z-50 flex h-14 items-center justify-center border-b border-richblack-700 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 flex h-14 items-center justify-center border-b border-richblack-700 transition-all duration-300 ${
         isScrolled
-          ? "bg-richblack-900/50 backdrop-blur-xl border-b border-richblack-700 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
-          : location.pathname !== "/"
-          ? "bg-richblack-800"
-          : "bg-transparent"
+          ? "bg-richblack-800/90 backdrop-blur-lg shadow-lg"
+          : "bg-richblack-800"
       }`}
     >
       <div className="flex w-11/12 max-w-maxContent items-center justify-between">
