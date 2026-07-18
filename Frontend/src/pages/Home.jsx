@@ -18,25 +18,24 @@ const Home = () => {
 
         {/* Section 1 */}
         <div className='relative mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 text-white'>
+        
             {/* Become a Instructor Button */}
             <Link to={"/signup"}>
+                <div className="group mx-auto mt-16 w-fit rounded-full border border-richblack-600/50 bg-richblack-800/70 p-[1px] font-bold text-richblack-100 backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-95 hover:border-yellow-50/40">
 
-                <div className='group mx-auto mt-16 w-fit rounded-full bg-richblack-800 p-1 font-bold text-richblack-200 drop-shadow-[0_1.5px_rgba(255,255,255,0.25)] transition-all duration-200 hover:scale-95 hover:drop-shadow-none'>
-
-                    <div className='flex flex-row items-center gap-2 rounded-full px-10 py-[5px] transition-all duration-200 group-hover:bg-richblack-900'>
+                    <div className="flex flex-row items-center gap-2 rounded-full px-10 py-[6px] transition-all duration-300 group-hover:bg-richblack-700/80">
 
                         <p>Become an Instructor</p>
 
-                        <FaArrowRightLong />
+                        <FaArrowRightLong className="transition-transform duration-300 group-hover:translate-x-1" />
 
                     </div>
 
                 </div>
-
             </Link>
 
             {/* Heading */}
-            <div className='text-center text-4xl font-semibold mt-7'>
+            <div className="mt-7 text-center text-4xl font-semibold tracking-tight">
 
                 Empower Your Future with{" "}
 
@@ -45,7 +44,7 @@ const Home = () => {
             </div>
 
             {/* Sub Heading */}
-            <div className='-mt-3 w-[90%] text-center text-lg font-bold text-richblack-300'>
+            <div className="mt-1 w-[90%] text-center text-lg font-bold leading-8 text-richblack-200">
 
                 With our online coding courses, you can learn at your own pace,
                 from anywhere in the world, and get access to a wealth of
@@ -55,27 +54,29 @@ const Home = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className='mt-8 flex flex-row gap-7'>
+            <div className="mt-8 flex flex-row gap-7">
 
-                <CTAButton active={true} linkto={'/signup'}>
+                <CTAButton active={true} linkto={"/signup"}>
                     Learn More
                 </CTAButton>
 
-                <CTAButton active={false} linkto={'/login'}>
+                <CTAButton active={false} linkto={"/login"}>
                     Book a Demo
                 </CTAButton>
 
             </div>
 
-            <div className='mx-3 my-7 shadow-[10px_-5px_50px_-5px] shadow-blue-200'>
-                {/* Video */}
+            {/* Video */}
+            <div className="mx-3 my-7 overflow-hidden rounded-2xl border border-richblack-700 shadow-[0_20px_60px_rgba(14,165,233,0.18)] transition-all duration-500 hover:shadow-[0_20px_80px_rgba(59,130,246,0.3)]">
+
                 <video
-                    className="shadow-[20px_20px_rgba(255,255,255)]"
+                    className="rounded-2xl transition-transform duration-700 hover:scale-[1.02]"
                     muted
                     loop
                     autoPlay
+                    playsInline
                 >
-                    <source src={Banner} type='video/mp4' />
+                    <source src={Banner} type="video/mp4" />
                 </video>
 
             </div>
