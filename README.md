@@ -21,6 +21,26 @@
 
 ---
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Highlights](#key-highlights)
+- [Live Demo](#live-demo)
+- [Technology Stack](#technology-stack)
+- [Features](#features)
+- [System Architecture](#system-architecture)
+- [Project Structure](#project-structure)
+- [Application Preview](#application-preview)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
+- [Deployment](#deployment)
+- [Future Enhancements](#future-enhancements)
+- [License](#license)
+- [Author](#author)
+
+---
+
 ## Overview
 
 StudyNotion is a full-stack Learning Management System (LMS) inspired by modern online education platforms. The application enables instructors to create, organize, and publish courses while allowing students to securely purchase, enroll in, and complete those courses through an intuitive learning interface.
@@ -48,11 +68,11 @@ The application follows a client-server architecture where the React frontend co
 
 ## Live Demo
 
-| Resource | URL |
-|----------|-----|
-| Frontend | https://study-notion-app-rho.vercel.app |
-| Backend API | https://studynotion-backend-ojy2.onrender.com |
-| Repository | https://github.com/ArshnoorSingh07/StudyNotion |
+| Resource | Link |
+|----------|------|
+| Frontend | [Live Demo](https://study-notion-app-rho.vercel.app) |
+| Backend API | [API](https://studynotion-backend-ojy2.onrender.com) |
+| Repository | [GitHub](https://github.com/ArshnoorSingh07/StudyNotion) |
 
 ---
 
