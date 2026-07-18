@@ -286,7 +286,9 @@ Secure checkout powered by Razorpay for seamless course enrollment.
 
 StudyNotion is fully responsive, providing a consistent learning experience across desktop, tablet, and mobile devices.
 
-![Responsive Design](screenshots/mobile-view.png)
+<p align="center">
+  <img src="screenshots/mobile-view.png" alt="Mobile Responsive Design" width="300">
+</p>
 
 ---
 
