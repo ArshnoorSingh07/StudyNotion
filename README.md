@@ -68,11 +68,11 @@ The application follows a client-server architecture where the React frontend co
 
 ## Live Demo
 
-| Resource | Link |
-|----------|------|
-| Frontend | [Live Demo](https://study-notion-app-rho.vercel.app) |
-| Backend API | [API](https://studynotion-backend-ojy2.onrender.com) |
-| Repository | [GitHub](https://github.com/ArshnoorSingh07/StudyNotion) |
+| Resource | URL |
+|----------|-----|
+| Frontend | https://study-notion-app-rho.vercel.app |
+| Backend API | https://studynotion-backend-ojy2.onrender.com |
+| Repository | https://github.com/ArshnoorSingh07/StudyNotion |
 
 ---
 
