@@ -115,25 +115,9 @@ StudyNotion provides a complete learning experience for both students and instru
 
 StudyNotion follows a client-server architecture where the frontend communicates with the backend through REST APIs.
 
-```text
-                     +----------------------+
-                     |    React Frontend    |
-                     +----------+-----------+
-                                |
-                                | HTTPS / REST APIs
-                                |
-                     +----------v-----------+
-                     | Express.js Backend   |
-                     +----------+-----------+
-                                |
-          +---------------------+----------------------+
-          |                     |                      |
-          |                     |                      |
-+---------v--------+   +--------v---------+   +--------v--------+
-|     MongoDB      |   |   Cloudinary     |   |    Razorpay     |
-| Application Data |   | Media Storage    |   | Payment Gateway |
-+------------------+   +------------------+   +-----------------+
-```
+![Architecture diagram](screenshots/architecture.png)
+
+---
 
 ### Architecture Overview
 
