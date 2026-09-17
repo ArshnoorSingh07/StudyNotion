@@ -42,8 +42,9 @@ export default function SubSectionModal({
       setValue("lectureTitle", modalData.title)
       setValue("lectureDesc", modalData.description)
       setValue("lectureVideo", modalData.videoUrl)
+      setValue("assistantNotes", modalData.assistantNotes || "")
     }
-  }, [])
+  }, [view, edit, modalData, setValue])
 
   // detect whether form is updated or not
   const isFormUpdated = () => {
@@ -52,7 +53,8 @@ export default function SubSectionModal({
     if (
       currentValues.lectureTitle !== modalData.title ||
       currentValues.lectureDesc !== modalData.description ||
-      currentValues.lectureVideo !== modalData.videoUrl
+      currentValues.lectureVideo !== modalData.videoUrl ||
+      (currentValues.assistantNotes || "") !== (modalData.assistantNotes || "")
     ) {
       return true
     }
@@ -67,6 +69,9 @@ export default function SubSectionModal({
     // console.log("Values After Editing form values:", currentValues)
     formData.append("sectionId", modalData.sectionId)
     formData.append("subSectionId", modalData._id)
+    if ((currentValues.assistantNotes || "") !== (modalData.assistantNotes || "")) {
+      formData.append("assistantNotes", currentValues.assistantNotes || "")
+    }
     if (currentValues.lectureTitle !== modalData.title) {
       formData.append("title", currentValues.lectureTitle)
     }
@@ -109,6 +114,7 @@ export default function SubSectionModal({
     formData.append("title", data.lectureTitle)
     formData.append("description", data.lectureDesc)
     formData.append("video", data.lectureVideo)
+    formData.append("assistantNotes", data.assistantNotes || "")
     setLoading(true)
     const result = await createSubSection(formData, token)
     if (result) {
@@ -187,6 +193,14 @@ export default function SubSectionModal({
                 Lecture Description is required
               </span>
             )}
+          </div>
+          <div className="flex flex-col space-y-2">
+            <label className="text-sm text-richblack-5" htmlFor="assistantNotes">Lesson notes / transcript <span className="text-xs text-richblack-300">(optional)</span></label>
+            <textarea id="assistantNotes" disabled={view || loading} rows={8} maxLength={60000}
+              placeholder="Paste the lesson transcript, worked examples, or study notes here…"
+              {...register("assistantNotes", { maxLength: 60000 })}
+              className="form-style w-full resize-y" />
+            <p className="text-xs leading-relaxed text-richblack-300">Your students’ AI companion uses these notes to explain this lesson and answer questions. Review the text before saving. Up to 60,000 characters.</p>
           </div>
           {!view && (
             <div className="flex justify-end">

@@ -51,6 +51,7 @@ const {
 
 // Importing Middlewares
 const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth")
+const { courseOwnership } = require("../middlewares/courseOwnership")
 
 // ********************************************************************************************************
 //                                      Course routes
@@ -59,17 +60,17 @@ const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth"
 // Courses can Only be Created by Instructors
 router.post("/createCourse", auth, isInstructor, createCourse)
 //Add a Section to a Course
-router.post("/addSection", auth, isInstructor, createSection)
+router.post("/addSection", auth, isInstructor, courseOwnership, createSection)
 // Update a Section
-router.post("/updateSection", auth, isInstructor, updateSection)
+router.post("/updateSection", auth, isInstructor, courseOwnership, updateSection)
 // Delete a Section
-router.post("/deleteSection", auth, isInstructor, deleteSection)
+router.post("/deleteSection", auth, isInstructor, courseOwnership, deleteSection)
 // Edit Sub Section
-router.post("/updateSubSection", auth, isInstructor, updateSubSection)
+router.post("/updateSubSection", auth, isInstructor, courseOwnership, updateSubSection)
 // Delete Sub Section
-router.post("/deleteSubSection", auth, isInstructor, deleteSubSection)
+router.post("/deleteSubSection", auth, isInstructor, courseOwnership, deleteSubSection)
 // Add a Sub Section to a Section
-router.post("/addSubSection", auth, isInstructor, createSubSection)
+router.post("/addSubSection", auth, isInstructor, courseOwnership, createSubSection)
 // Get all Registered Courses
 router.get("/getAllCourses", getAllCourses)
 // Get Details for a Specific Courses
@@ -77,11 +78,11 @@ router.post("/getCourseDetails", getCourseDetails)
 // Get Details for a Specific Courses
 router.post("/getFullCourseDetails", auth, getFullCourseDetails)
 // Edit Course routes
-router.post("/editCourse", auth, isInstructor, editCourse)
+router.post("/editCourse", auth, isInstructor, courseOwnership, editCourse)
 // Get all Courses Under a Specific Instructor
 router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
 // Delete a Course
-router.delete("/deleteCourse", deleteCourse)
+router.delete("/deleteCourse", auth, isInstructor, courseOwnership, deleteCourse)
 // Update Course Progress
 router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress)
 

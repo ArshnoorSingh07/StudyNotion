@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import OTPInput from 'react-otp-input';
 import { BiArrowBack } from "react-icons/bi";
-import { RxCountdownTimer } from "react-icons/rx";
 import { sendOtp, signUp } from '../services/operations/authAPI';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -18,7 +17,7 @@ const VerifyEmail = () => {
         if(!signupData){
             navigate("/signup")
         }
-    } ,[])
+    } ,[navigate, signupData])
 
     const handleOnSubmit = (event) => {
         event.preventDefault();

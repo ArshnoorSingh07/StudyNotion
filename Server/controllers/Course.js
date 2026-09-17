@@ -7,11 +7,26 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader")
 const CourseProgress = require("../models/CourseProgress")
 const { convertSecondsToDuration } = require("../utils/secToDuration")
 
+async function authorizeInstructor(userId, status, res) {
+  const instructor = await User.findById(userId).select('accountType active approved').lean()
+  if (!instructor || instructor.active === false || instructor.accountType !== 'Instructor') {
+    res.status(403).json({ success: false, message: 'An active instructor account is required.' })
+    return null
+  }
+  if (status === 'Published' && instructor.approved !== true) {
+    res.status(403).json({ success: false, message: 'Your instructor account must be approved before you can publish a course. You can save it as a draft.' })
+    return null
+  }
+  return instructor
+}
+
 // Function to create a new course
 exports.createCourse = async (req, res) => {
   try {
     // Get user ID from request object
     const userId = req.user.id
+    const instructorDetails = await authorizeInstructor(userId, req.body.status, res)
+    if (!instructorDetails) return
 
     // Get all required fields from request body
     let {
@@ -53,18 +68,6 @@ exports.createCourse = async (req, res) => {
     if (!status || status === undefined) {
       status = "Draft"
     }
-    // Check if the user is an instructor
-    const instructorDetails = await User.findById(userId, {
-      accountType: "Instructor",
-    })
-
-    if (!instructorDetails) {
-      return res.status(404).json({
-        success: false,
-        message: "Instructor Details Not Found",
-      })
-    }
-
     // Check if the tag given is valid
     const categoryDetails = await Category.findById(category)
     if (!categoryDetails) {
@@ -137,6 +140,7 @@ exports.editCourse = async (req, res) => {
   try {
     const { courseId } = req.body
     const updates = req.body
+    if (!await authorizeInstructor(req.user.id, updates.status, res)) return
     const course = await Course.findById(courseId)
 
     if (!course) {
@@ -155,7 +159,9 @@ exports.editCourse = async (req, res) => {
     }
 
     // Update only the fields that are present in the request body
+    const editableFields = new Set(['courseName', 'courseDescription', 'whatYouWillLearn', 'price', 'tag', 'instructions', 'status', 'category'])
     for (const key in updates) {
+      if (!editableFields.has(key)) continue
       if (key === "tag" || key === "instructions") {
         course[key] =
           typeof updates[key] === "string"
@@ -173,6 +179,7 @@ exports.editCourse = async (req, res) => {
     })
       .populate({
         path: "instructor",
+        select: "firstName lastName image additionalDetails",
         populate: {
           path: "additionalDetails",
         },
@@ -183,6 +190,7 @@ exports.editCourse = async (req, res) => {
         path: "courseContent",
         populate: {
           path: "subSection",
+          select: "+assistantNotes",
         },
       })
       .exec()
@@ -216,7 +224,7 @@ exports.getAllCourses = async (req, res) => {
         studentsEnrolled: true,
       }
     )
-      .populate("instructor")
+      .populate("instructor", "firstName lastName image")
       .exec()
 
     return res.status(200).json({
@@ -241,6 +249,7 @@ exports.getCourseDetails = async (req, res) => {
     })
       .populate({
         path: "instructor",
+        select: "firstName lastName image additionalDetails",
         populate: {
           path: "additionalDetails",
         },
@@ -298,11 +307,21 @@ exports.getFullCourseDetails = async (req, res) => {
   try {
     const { courseId } = req.body
     const userId = req.user.id
+    if (typeof courseId !== 'string' || !/^[a-f\d]{24}$/i.test(courseId)) {
+      return res.status(400).json({ success: false, message: 'Invalid course.' })
+    }
+    const viewer = await User.findById(userId).select('accountType active').lean()
+    const access = await Course.findOne({ _id: courseId, $or: [{ instructor: userId }, { studentsEnrolled: userId, status: 'Published' }] }).select('instructor').lean()
+    if (!viewer || viewer.active === false || !access) {
+      return res.status(403).json({ success: false, message: 'You do not have access to this course.' })
+    }
+    const isOwner = String(access.instructor) === userId
     const courseDetails = await Course.findOne({
       _id: courseId,
     })
       .populate({
         path: "instructor",
+        select: "firstName lastName image additionalDetails",
         populate: {
           path: "additionalDetails",
         },
@@ -313,6 +332,7 @@ exports.getFullCourseDetails = async (req, res) => {
         path: "courseContent",
         populate: {
           path: "subSection",
+          select: isOwner ? "+assistantNotes" : "-assistantNotes",
         },
       })
       .exec()

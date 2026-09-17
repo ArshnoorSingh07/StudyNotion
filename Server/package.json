@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "node --test tests/*.test.js",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test:assistant": "node --test tests/assistant.test.js",
+    "test:live": "node scripts/live-smoke.cjs --run"
   },
   "keywords": [],
   "author": "",

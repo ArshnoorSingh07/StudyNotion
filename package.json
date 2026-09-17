@@ -37,7 +37,7 @@
     "yargs-parser": "^21.1.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm --prefix Server test",
     "client": "cd Frontend && npm start",
     "server": "cd Server && npm run dev",
     "dev": "concurrently -n \"CLIENT,SERVER\" -c \"bgBlue,bgYellow\" \"npm run client\" \"npm run server\""

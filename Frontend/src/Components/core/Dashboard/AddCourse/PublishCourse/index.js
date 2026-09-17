@@ -15,10 +15,8 @@ const PublishCourse = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if(course?.status === COURSE_STATUS.PUBLISHED){
-            setValue("public",true);
-        }
-    },[])
+        setValue("public", course?.status === COURSE_STATUS.PUBLISHED);
+    },[course?.status, setValue])
 
     const goBack = () => {
         dispatch(setStep(2)); 
@@ -30,7 +28,7 @@ const PublishCourse = () => {
     }
 
     const handleCoursePublish = async () => {
-        if(course?.status === COURSE_STATUS.PUBLISHED && getValues("public") === true ||
+        if((course?.status === COURSE_STATUS.PUBLISHED && getValues("public") === true) ||
             (course.status === COURSE_STATUS.DRAFT && getValues("public") === false))
             {
                 // no updation in form 

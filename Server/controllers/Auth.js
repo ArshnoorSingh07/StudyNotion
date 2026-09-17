@@ -22,6 +22,9 @@ exports.signup = async (req, res) => {
             contactNumber,
             otp,
         } = req.body;
+        if (!['Student', 'Instructor'].includes(accountType)) {
+            return res.status(400).json({ success: false, message: 'Choose a student or instructor account.' });
+        }
         // Check if All Details are there or not
         if (
             !firstName ||
@@ -74,9 +77,8 @@ exports.signup = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create the user
-        let approved = "";
-        approved === "Instructor" ? (approved = false) : (approved = true);
+        // Instructors require approval before they can publish courses; students are approved immediately.
+        const approved = accountType !== "Instructor";
 
         // Create the Additional Profile For User
         const profileDetails = await Profile.create({

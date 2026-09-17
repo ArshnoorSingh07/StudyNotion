@@ -9,18 +9,20 @@ export default function EnrolledCourses() {
   const navigate = useNavigate();
 
   const [enrolledCourses, setEnrolledCourses] = useState(null)
-  const getEnrolledCourses = async () => {
-    try {
-      const res = await getUserEnrolledCourses(token);
-
-      setEnrolledCourses(res);
-    } catch (error) {
-      console.log("Could not fetch enrolled courses.")
-    }
-  };
   useEffect(() => {
-    getEnrolledCourses();
-  }, [])
+    let current = true;
+    setEnrolledCourses(null);
+    async function loadCourses() {
+      try {
+        const result = await getUserEnrolledCourses(token);
+        if (current) setEnrolledCourses(result || []);
+      } catch (error) {
+        if (current) setEnrolledCourses([]);
+      }
+    }
+    loadCourses();
+    return () => { current = false; };
+  }, [token])
 
   return (
     <>

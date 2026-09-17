@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowRightLong } from "react-icons/fa6";
 import CTAButton from '../HomePage/Button';
-import HighlightText from './HighlightText';
 
 const CodeBlocks = ({
     position,

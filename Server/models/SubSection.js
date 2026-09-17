@@ -10,6 +10,12 @@ const subSectionSchema = new mongoose.Schema({
     description:{
         type:String,
     },
+    assistantNotes: {
+        type: String,
+        default: "",
+        maxlength: 60000,
+        select: false,
+    },
     videoUrl:{
         type:String,
     }

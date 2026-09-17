@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { BigPlayButton, Player } from 'video-react'
@@ -15,14 +15,13 @@ import { AiOutlineReload } from "react-icons/ai"
 const VideoDetails = () => {
   const { courseId, sectionId, subSectionId } = useParams()
   const navigate = useNavigate()
-  const location = useLocation()
   const playerRef = useRef(null)
   const dispatch = useDispatch()
   const { token } = useSelector((state) => state.auth)
   const { courseSectionData, courseEntireData, completedLectures } =
     useSelector((state) => state.viewCourse)
 
-  const [videoData, setVideoData] = useState([])
+  const [videoData, setVideoData] = useState(null)
   const [previewSource, setPreviewSource] = useState("")
   const [videoEnded, setVideoEnded] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -30,7 +29,7 @@ const VideoDetails = () => {
   useEffect(() => {
     ;(async () => {
       if (!courseSectionData.length) return
-      if (!courseId && !sectionId && !subSectionId) {
+      if (!courseId || !sectionId || !subSectionId) {
         navigate(`/dashboard/enrolled-courses`)
       } else {
         const filteredData = courseSectionData.filter(
@@ -39,12 +38,17 @@ const VideoDetails = () => {
         const filteredVideoData = filteredData?.[0]?.subSection.filter(
           (data) => data._id === subSectionId
         )
+        if (!filteredVideoData?.[0]) {
+          setVideoData(null)
+          navigate('/dashboard/enrolled-courses', { replace: true })
+          return
+        }
         setVideoData(filteredVideoData[0])
         setPreviewSource(courseEntireData.thumbnail)
         setVideoEnded(false)
       }
     })()
-  }, [courseSectionData, courseEntireData, location.pathname])
+  }, [courseSectionData, courseEntireData, courseId, sectionId, subSectionId, navigate])
 
   const isFirstVideo = () => {
     const currentSectionIndx = courseSectionData.findIndex(

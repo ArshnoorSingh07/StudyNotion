@@ -14,18 +14,20 @@ export default function Instructor() {
   const [courses, setCourses] = useState([])
 
   useEffect(() => {
+    let current = true;
     ;(async () => {
       setLoading(true)
       const instructorApiData = await getInstructorData(token)
       const result = await fetchInstructorCourses(token)
-      console.log(instructorApiData)
-      if (instructorApiData.length) setInstructorData(instructorApiData)
+      if (!current) return;
+      if (instructorApiData?.length) setInstructorData(instructorApiData)
       if (result) {
         setCourses(result)
       }
       setLoading(false)
     })()
-  }, [])
+    return () => { current = false; };
+  }, [token])
 
   const totalAmount = instructorData?.reduce(
     (acc, curr) => acc + curr.totalAmountGenerated,

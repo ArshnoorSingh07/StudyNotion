@@ -1,5 +1,11 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
+export const assistantEndpoints = {
+  COURSES_API: BASE_URL + "/assistant/courses",
+  HISTORY_API: BASE_URL + "/assistant/history",
+  CHAT_API: BASE_URL + "/assistant/chat",
+}
+
 // AUTH ENDPOINTS
 export const endpoints = {
   SENDOTP_API: BASE_URL + "/auth/sendotp",

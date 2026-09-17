@@ -1,25 +1,12 @@
 # StudyNotion
 
-<p align="center">
-  <strong>A Full-Stack Learning Management System (LMS)</strong><br>
-  Built using the MERN Stack
-</p>
+A full-stack MERN learning platform with a course-aware AI study companion. Instructors build and manage courses; students purchase access, watch lessons, track progress, and ask questions grounded in their course material.
 
-<p align="center">
-
-![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
-![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-593D88?style=for-the-badge&logo=redux)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)
+![Express](https://img.shields.io/badge/Express-5-000000?style=for-the-badge&logo=express)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=for-the-badge&logo=tailwind-css)
-![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens)
-![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary)
-![Razorpay](https://img.shields.io/badge/Razorpay-0C4BFF?style=for-the-badge&logo=razorpay)
-
-</p>
-
----
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Groq](https://img.shields.io/badge/AI-Groq-F55036?style=for-the-badge)
 
 ## Table of Contents
 
@@ -28,177 +15,162 @@
 - [Live Demo](#live-demo)
 - [Technology Stack](#technology-stack)
 - [Features](#features)
+- [AI Study Companion](#ai-study-companion)
 - [System Architecture](#system-architecture)
 - [Project Structure](#project-structure)
 - [Application Preview](#application-preview)
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
 - [Running the Application](#running-the-application)
+- [Testing](#testing)
 - [Deployment](#deployment)
 - [Future Enhancements](#future-enhancements)
 - [License](#license)
 - [Author](#author)
 
----
-
 ## Overview
 
-StudyNotion is a full-stack Learning Management System (LMS) inspired by modern online education platforms. The application enables instructors to create, organize, and publish courses while allowing students to securely purchase, enroll in, and complete those courses through an intuitive learning interface.
-
-Built using the MERN stack, the project demonstrates the implementation of modern web development practices including secure authentication, role-based authorization, cloud-based media management, online payment processing, and responsive user interfaces.
-
-The application follows a client-server architecture where the React frontend communicates with an Express.js REST API, while MongoDB manages persistent application data. Third-party integrations such as Cloudinary and Razorpay provide scalable media storage and secure payment processing.
-
----
+StudyNotion combines course creation, paid enrollment, video learning, and an AI tutor in one application. The React frontend communicates with an Express API; MongoDB stores users, courses, progress, and conversations. Cloudinary handles media, Razorpay handles payments, Brevo delivers email, and Groq generates AI answers using relevant course passages.
 
 ## Key Highlights
 
-- Full-stack MERN application
-- JWT-based authentication and authorization
-- OTP-based email verification
-- Role-Based Access Control (Student & Instructor)
-- Course creation and management
-- Secure online payments using Razorpay
-- Cloud-based media storage with Cloudinary
-- Student progress tracking
-- Responsive user interface
-- RESTful API architecture
-
----
+- AI explanations, summaries, and practice questions with lesson references and streamed answers.
+- JWT authentication, email OTP verification, and student/instructor access controls.
+- Course ownership checks and instructor approval before publishing.
+- Course builder with sections, video lectures, and instructor-provided lesson notes or transcripts.
+- Razorpay checkout, Cloudinary media storage, and student progress tracking.
+- Instructor analytics for enrollment and revenue.
+- Responsive UI and lazy-loaded routes.
+- Automated regression checks and an opt-in live MongoDB/Groq test.
 
 ## Live Demo
 
 | Resource | URL |
-|----------|-----|
+|---|---|
 | Frontend | https://study-notion-app-rho.vercel.app |
 | Backend API | https://studynotion-backend-ojy2.onrender.com |
 | Repository | https://github.com/ArshnoorSingh07/StudyNotion |
 
----
+These are the project's deployment links. Local changes require deployment before they appear on the hosted application.
 
 ## Technology Stack
 
-| Category | Technologies |
-|-----------|--------------|
-| Frontend | React.js, Redux Toolkit, React Router DOM, Tailwind CSS |
-| Backend | Node.js, Express.js |
-| Database | MongoDB, Mongoose |
-| Authentication | JWT, Bcrypt |
-| Media Storage | Cloudinary |
-| Payment Gateway | Razorpay |
-| Email Service | Nodemailer |
-| Deployment | Vercel, Render |
-| Version Control | Git, GitHub |
-| API Testing | Postman |
-
----
-
+| Area | Technologies |
+|---|---|
+| Frontend | React 18, JavaScript, React Router, Redux Toolkit |
+| Styling and UI | Tailwind CSS 3, PostCSS, Framer Motion, Lucide, React Icons |
+| Forms and requests | React Hook Form, Axios, Fetch API |
+| Charts and media UI | Chart.js, Swiper, Video React |
+| Backend | Node.js, Express 5, REST APIs |
+| Database | MongoDB, Mongoose 9 |
+| Authentication | JSON Web Tokens, bcrypt, email OTP |
+| AI | Groq Chat Completions, lexical RAG with BM25-style ranking, SSE streaming |
+| AI response display | React Markdown |
+| Media storage | Cloudinary |
+| Payments | Razorpay |
+| Email | Brevo transactional email API |
+| Build and development | Create React App / react-scripts, nodemon, concurrently |
+| Testing | Node.js test runner, ESLint, live integration script |
+| Hosting | Vercel frontend, Render backend, MongoDB Atlas |
 
 ## Features
 
-StudyNotion provides a complete learning experience for both students and instructors through a role-based platform.
-
 | Module | Functionality |
-|----------|--------------|
-| Authentication | User registration, login, OTP verification, password reset, JWT authentication |
-| Student Dashboard | Browse courses, enroll in courses, watch lectures, track progress, manage profile |
-| Instructor Dashboard | Create, edit, publish and manage courses, upload content, monitor enrolled students |
-| Course Management | Categories, sections, subsections, thumbnails, video lectures and structured course content |
-| Payments | Secure course purchases with Razorpay and automatic enrollment after payment verification |
-| Media Management | Cloudinary integration for image and video uploads |
-| Reviews | Students can submit ratings and reviews for enrolled courses |
-| Security | Password hashing, protected routes, role-based authorization and server-side validation |
+|---|---|
+| Authentication | Registration, login, OTP verification, password reset, JWT authentication |
+| Student dashboard | Enrolled courses, video lessons, progress tracking, profile management |
+| Instructor dashboard | Course management, lesson uploads, enrollment and revenue analytics |
+| Course builder | Categories, sections, lectures, thumbnails, lesson notes, drafts and publishing |
+| AI study companion | Course questions, follow-ups, summaries, practice prompts, saved chats and source links |
+| Payments | Razorpay checkout and enrollment after payment verification |
+| Reviews | Ratings and reviews for enrolled courses |
+| Access controls | Ownership checks, enrollment checks, instructor approval and AI usage limits |
 
----
+Public signup accepts Student and Instructor accounts. New instructors can save drafts, but publishing requires their stored `approved` flag to be `true`. An administrator must manage that approval in the database; an approval dashboard is not implemented yet.
+
+## AI Study Companion
+
+The floating **Ask AI** button opens the study companion. Chat is available to active students enrolled in a published course. Instructors contribute material through **Lesson notes / transcript** in the lecture editor; instructor accounts cannot chat with the assistant.
+
+### How it works
+
+1. The backend verifies the student's account and course enrollment.
+2. It splits current course descriptions and instructor notes into overlapping passages.
+3. Lexical retrieval ranks passages using BM25-style word matching and selects up to five.
+4. Groq receives the question, selected passages, and up to six prior messages.
+5. The answer streams through server-sent events (SSE), with numbered citations and lesson links.
+
+The default model is `openai/gpt-oss-20b`, configurable through `GROQ_MODEL`. New explicit topics are retrieved independently; vague follow-ups reuse the latest explicit topic.
+
+### Scope and limits
+
+- Uses written course material and instructor-provided transcripts; videos are not automatically transcribed or watched.
+- Uses lexical retrieval; no embedding service or vector database is configured.
+- Saved lesson edits and deletions affect subsequent retrieval. Summaries use selected excerpts and may not cover every lesson.
+- History is stored per student/course, capped at 40 messages. MongoDB TTL cleanup removes sessions after approximately 30 days of inactivity.
+- **New chat** clears the selected course's history. Session locks prevent overlapping answers for the same student/course.
+- Database counters enforce 10 requests per minute and 100 per day in fixed time windows. Failed requests can count toward the limits.
+- MongoDB must permit creation of the unique session and TTL indexes.
+- Provider requests include course excerpts and chat context, without account credentials or private profile fields.
+- Without `GROQ_API_KEY`, chat reports that the assistant is not configured. AI responses should still be checked against their sources.
 
 ## System Architecture
 
-StudyNotion follows a client-server architecture where the frontend communicates with the backend through REST APIs.
-
-```text
-                     +----------------------+
-                     |    React Frontend    |
-                     +----------+-----------+
-                                |
-                                | HTTPS / REST APIs
-                                |
-                     +----------v-----------+
-                     | Express.js Backend   |
-                     +----------+-----------+
-                                |
-          +---------------------+----------------------+
-          |                     |                      |
-          |                     |                      |
-+---------v--------+   +--------v---------+   +--------v--------+
-|     MongoDB      |   |   Cloudinary     |   |    Razorpay     |
-| Application Data |   | Media Storage    |   | Payment Gateway |
-+------------------+   +------------------+   +-----------------+
+```mermaid
+flowchart TD
+    UI[React frontend] -->|REST requests| API[Express backend]
+    API -->|SSE answer stream| UI
+    API <--> DB[(MongoDB: users, courses, progress, chats, usage)]
+    API --> Media[Cloudinary: images and videos]
+    API --> Payments[Razorpay: payments]
+    API --> Email[Brevo: transactional email]
+    API --> Retrieval[Retrieve relevant course passages]
+    Retrieval --> AI[Groq: generate answer]
+    AI --> API
 ```
 
-### Architecture Overview
-
-- React provides the client-side user interface.
-- Express.js exposes RESTful APIs for all application operations.
-- MongoDB stores application data including users, courses and progress.
-- Cloudinary manages course thumbnails and lecture videos.
-- Razorpay processes secure online payments and enrollment.
-
----
+API credentials stay on the backend. The frontend receives the public Razorpay key ID and API base URL through its build-time environment variables.
 
 ## Project Structure
 
 ```text
-StudyNotion
-│
-├── frontend
-│   ├── public
-│   ├── src
-│   │   ├── assets
-│   │   ├── components
-│   │   ├── data
-│   │   ├── hooks
-│   │   ├── pages
-│   │   ├── redux
-│   │   ├── services
-│   │   ├── utils
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
-│   └── package.json
-│
-├── server
-│   ├── config
-│   ├── controllers
-│   ├── middleware
-│   ├── models
-│   ├── routes
-│   ├── utils
-│   ├── mail
-│   ├── index.js
-│   └── package.json
-│
-├── README.md
-└── package.json
+StudyNotion/
+|-- Frontend/
+|   |-- public/
+|   |-- scripts/              # CSS preparation for the CRA build
+|   |-- src/
+|   |   |-- assets/
+|   |   |-- Components/      # Shared UI, dashboards, course builder, assistant
+|   |   |-- data/
+|   |   |-- hooks/
+|   |   |-- pages/
+|   |   |-- reducer/         # Combined Redux reducers
+|   |   |-- slices/          # Redux state slices
+|   |   |-- services/        # API endpoints and client operations
+|   |   |-- styles/
+|   |   |-- utils/
+|   |   |-- App.js
+|   |   `-- index.js
+|   `-- package.json
+|-- Server/
+|   |-- config/
+|   |-- controllers/
+|   |-- middlewares/
+|   |-- models/
+|   |-- routes/
+|   |-- services/ai/         # Retrieval and Groq client
+|   |-- scripts/             # Opt-in live integration check
+|   |-- tests/               # Regression tests
+|   |-- utils/
+|   |-- mail/
+|   |-- index.js
+|   `-- package.json
+|-- screenshots/
+|-- README.md
+`-- package.json             # Run frontend/backend together
 ```
 
-### Directory Overview
-
-| Directory | Description |
-|------------|-------------|
-| `frontend/` | React application and user interface |
-| `components/` | Reusable UI components |
-| `pages/` | Route-level pages |
-| `redux/` | Global state management |
-| `services/` | API requests and service functions |
-| `server/` | Express backend |
-| `controllers/` | Business logic for API endpoints |
-| `models/` | MongoDB schemas using Mongoose |
-| `routes/` | REST API route definitions |
-| `middleware/` | Authentication, authorization and request validation |
-| `utils/` | Helper functions and reusable utilities |
-| `mail/` | Email templates and mailing logic |
-
----
+Directory names are case-sensitive on Linux: use `Frontend`, `Server`, and `Components` as shown.
 
 ## Application Preview
 
@@ -230,7 +202,7 @@ Secure authentication using JWT-based login.
 
 ### Home Dashboard
 
-Students can browse available courses, categories, and personalized content.
+Students can browse available courses, categories, and course information.
 
 ![Home Dashboard](screenshots/home-dashboard.png)
 
@@ -314,143 +286,154 @@ StudyNotion is fully responsive, providing a consistent learning experience acro
 
 ## Installation
 
-Follow the steps below to set up StudyNotion locally.
-
 ### Prerequisites
 
-Before you begin, ensure that the following software is installed on your system:
+- Node.js **20.19.0 or newer**, as required by the installed Mongoose version.
+- npm and Git.
+- MongoDB locally or on Atlas, with a connection URL and network access from the backend.
+- Cloudinary, Razorpay, and Brevo credentials for media, payments, and email verification.
+- A Groq API key to enable the study companion.
 
-- Node.js (v18 or later)
-- npm
-- Git
-- MongoDB (Local or MongoDB Atlas)
-
----
-
-### Clone the Repository
+### Clone and install
 
 ```bash
 git clone https://github.com/ArshnoorSingh07/StudyNotion.git
 cd StudyNotion
-```
-
----
-
-### Install Dependencies
-
-Install the required dependencies for both the frontend and backend.
-
-#### Frontend
-
-```bash
-cd frontend
 npm install
-```
-
-#### Backend
-
-```bash
-cd ../server
+cd Frontend
+npm install --legacy-peer-deps
+cd ../Server
 npm install
+cd ..
 ```
 
----
+Install the root dependencies as well as both applications. The frontend uses `--legacy-peer-deps` because some older UI packages declare peer dependencies that conflict with the React version used here.
 
 ## Environment Variables
 
-Create a `.env` file inside the `server` directory and configure the following environment variables.
+The examples below contain placeholders. Replace them with your own settings and keep real credentials out of source control.
+
+### Backend: `Server/.env`
 
 ```env
-PORT=
+PORT=4000
+MONGODB_URL=mongodb://127.0.0.1:27017/studynotion
+JWT_SECRET=replace_with_a_long_random_secret
+FRONTEND_URL=http://localhost:3000
 
-MONGODB_URL=
+# Cloudinary
+CLOUD_NAME=your_cloud_name
+API_KEY=your_cloudinary_api_key
+API_SECRET=your_cloudinary_api_secret
+FOLDER_NAME=StudyNotion
 
-JWT_SECRET=
+# Brevo: use a verified sender
+BREVO_API_KEY=your_brevo_api_key
+BREVO_SENDER_NAME=StudyNotion
+BREVO_SENDER_EMAIL=your_verified_sender@example.com
 
-JWT_EXPIRES_IN=
+# Razorpay: use matching test credentials for local development
+RAZORPAY_KEY=your_razorpay_key_id
+RAZORPAY_SECRET=your_razorpay_secret
 
-CLOUD_NAME=
-
-API_KEY=
-
-API_SECRET=
-
-FOLDER_NAME=
-
-MAIL_HOST=
-
-MAIL_USER=
-
-MAIL_PASS=
-
-RAZORPAY_KEY=
-
-RAZORPAY_SECRET=
-
-FRONTEND_URL=
+# Optional: enables the AI study companion
+GROQ_API_KEY=your_groq_api_key
+GROQ_MODEL=openai/gpt-oss-20b
 ```
 
----
+Replace the local MongoDB URL with your Atlas connection string when using Atlas. The implementation sends email through Brevo; SMTP `MAIL_*` variables are not used. JWT lifetime is currently set in the authentication controller rather than through `JWT_EXPIRES_IN`.
+
+### Frontend: `Frontend/.env`
+
+```env
+REACT_APP_BASE_URL=http://localhost:4000/api/v1
+REACT_APP_RAZORPAY_KEY=your_razorpay_key_id
+```
+
+Use the same Razorpay key ID as the backend. Do not include a trailing slash in `REACT_APP_BASE_URL`. Frontend environment values are included in the browser bundle, so server secrets and the Groq key belong only in `Server/.env`.
+
+Restart development processes after changing environment variables; deployed frontend changes require rebuilding.
 
 ## Running the Application
 
-Start the backend server.
+From the repository root, start both services:
 
 ```bash
-cd server
 npm run dev
 ```
 
-Open a new terminal and start the frontend application.
+Or use two terminals, each starting in the repository root:
 
 ```bash
-cd frontend
-npm start
+# Terminal 1
+npm --prefix Server run dev
 ```
 
-After both services are running, open your browser and navigate to:
+```bash
+# Terminal 2
+npm --prefix Frontend start
+```
 
-| Service | URL |
-|---------|-----|
+| Service | Local URL |
+|---|---|
 | Frontend | http://localhost:3000 |
-| Backend | http://localhost:4000 |
+| Backend health response | http://localhost:4000/ |
+| API base | http://localhost:4000/api/v1 |
 
----
+## Testing
+
+Run these commands from the repository root:
+
+| Command | Purpose |
+|---|---|
+| `npm test` | Backend regression suite: retrieval, assistant behavior, signup, ownership and publishing |
+| `npm --prefix Server run test:assistant` | Assistant regression tests only |
+| `npm --prefix Frontend run lint` | Frontend ESLint checks |
+| `npm --prefix Frontend run build` | Production frontend build, including CSS preparation |
+| `npm --prefix Server run test:live` | Opt-in real MongoDB and Groq integration checks |
+
+Regression tests use test doubles and do not require a live MongoDB connection or Groq request. The live check reads `Server/.env` and requires `MONGODB_URL`, `JWT_SECRET`, and `GROQ_API_KEY`.
+
+### Live integration checks
+
+The live script creates a randomly named `sn_live_*` database on the configured MongoDB cluster, starts an HTTP server on a temporary loopback port, and exercises the actual routes and models. A successful run makes two real Groq requests, which can consume provider quota or incur charges. The MongoDB user needs permission to create indexes and create/drop the temporary database.
+
+Coverage includes authentication, enrollment, course ownership, publishing approval, streamed answers, citations, follow-ups, persisted history, unsupported questions, private-note filtering, session locks, revoked access, daily quotas, and chat clearing.
+
+Existing application records are not modified. The script drops its temporary database and verifies cleanup before reporting success. If interrupted or cleanup fails, inspect the reported temporary database name. These checks cover backend flows; they do not test browser interactions, live email delivery, media uploads, or payment checkout.
 
 ## Deployment
 
-The application is deployed using modern cloud services.
-
 | Component | Platform |
-|-----------|----------|
+|---|---|
 | Frontend | Vercel |
 | Backend | Render |
 | Database | MongoDB Atlas |
-| Media Storage | Cloudinary |
-| Payment Gateway | Razorpay |
+| Media storage | Cloudinary |
+| Payments | Razorpay |
+| Email | Brevo |
+| AI inference | Groq |
 
----
+- Build the frontend from `Frontend` with `npm run build`; the output directory is `build`. Configure frontend environment variables before building and provide SPA fallback routing to `index.html`.
+- Start the backend from `Server` with `npm start`. Configure its environment variables on the host, using the deployed frontend origin for `FRONTEND_URL`.
+- Set the frontend API base URL to the deployed backend URL ending in `/api/v1`.
+- Allow the backend to reach MongoDB and the external APIs. Preserve SSE streaming through any proxy so AI answers arrive incrementally.
 
 ## Future Enhancements
 
-- Course completion certificates
-- Quiz and assessment module
-- Live classes and video conferencing
-- Discussion forums
-- Personalized course recommendations
-- Instructor analytics
-- In-app notifications
-- Mobile application
-- Admin dashboard
-- Multi-language support
-
----
+- Course completion certificates.
+- Graded quizzes and assessments beyond AI-generated practice prompts.
+- Live classes and discussion forums.
+- Personalized course recommendations.
+- In-app notifications and a mobile application.
+- Admin dashboard with instructor approval controls.
+- Semantic vector retrieval and document ingestion.
+- Automatic lecture transcription.
+- Multi-language support.
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for more information.
-
----
+The root and backend package manifests declare ISC, but this repository does not currently include a standalone `LICENSE` file. The earlier MIT statement was inconsistent with those manifests; a license file still needs to be added by the project owner.
 
 ## Author
 

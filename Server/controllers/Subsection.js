@@ -7,8 +7,11 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 exports.createSubSection = async (req, res) => {
     try {
       // Extract necessary information from the request body
-      const { sectionId, title, description } = req.body
-      const video = req.files.video
+      const { sectionId, title, description, assistantNotes = "" } = req.body
+      const video = req.files?.video
+      if (typeof assistantNotes !== 'string' || assistantNotes.length > 60000) {
+        return res.status(400).json({ success: false, message: 'Lesson notes must be text under 60,000 characters.' })
+      }
   
       // Check if all necessary fields are provided
       if (!sectionId || !title || !description || !video) {
@@ -29,6 +32,7 @@ exports.createSubSection = async (req, res) => {
         title: title,
         timeDuration: `${uploadDetails.duration}`,
         description: description,
+        assistantNotes,
         videoUrl: uploadDetails.secure_url,
       })
   
@@ -37,7 +41,7 @@ exports.createSubSection = async (req, res) => {
         { _id: sectionId },
         { $push: { subSection: SubSectionDetails._id } },
         { new: true }
-      ).populate("subSection")
+      ).populate({ path: "subSection", select: "+assistantNotes" })
   
       // Return the updated section in the response
       return res.status(200).json({ success: true, data: updatedSection })
@@ -54,8 +58,11 @@ exports.createSubSection = async (req, res) => {
   
   exports.updateSubSection = async (req, res) => {
     try {
-      const { sectionId,subSectionId, title, description } = req.body
-      const subSection = await SubSection.findById(subSectionId)
+      const { sectionId,subSectionId, title, description, assistantNotes } = req.body
+      if (assistantNotes !== undefined && (typeof assistantNotes !== 'string' || assistantNotes.length > 60000)) {
+        return res.status(400).json({ success: false, message: 'Lesson notes must be text under 60,000 characters.' })
+      }
+      const subSection = await SubSection.findById(subSectionId).select("+assistantNotes")
   
       if (!subSection) {
         return res.status(404).json({
@@ -71,6 +78,7 @@ exports.createSubSection = async (req, res) => {
       if (description !== undefined) {
         subSection.description = description
       }
+      if (assistantNotes !== undefined) subSection.assistantNotes = assistantNotes
       if (req.files && req.files.video !== undefined) {
         const video = req.files.video
         const uploadDetails = await uploadImageToCloudinary(
@@ -83,7 +91,7 @@ exports.createSubSection = async (req, res) => {
   
       await subSection.save()
   
-      const updatedSection = await Section.findById(sectionId).populate("subSection")
+      const updatedSection = await Section.findById(sectionId).populate({ path: "subSection", select: "+assistantNotes" })
 
 
       return res.json({
@@ -119,7 +127,7 @@ exports.createSubSection = async (req, res) => {
           .json({ success: false, message: "SubSection not found" })
       }
 
-      const updatedSection = await Section.findById(sectionId).populate("subSection")
+      const updatedSection = await Section.findById(sectionId).populate({ path: "subSection", select: "+assistantNotes" })
   
       return res.json({
         success: true,

@@ -1,32 +1,34 @@
+import { lazy, Suspense } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Home from './pages/Home';
 import Navbar from "./Components/common/Navbar";
 import OpenRoute from './Components/core/Auth/OpenRoute'
-import Login from './pages/Login';
-import Signup from "./pages/Signup";
-import ForgotPassword from "./pages/ForgotPassword";
-import UpdatePassword from "./pages/UpdatePassword";
-import VerifyEmail from "./pages/VerifyEmail";
-import About from "./pages/About";
-import Contact from './pages/Contact';
-import MyProfile from "./Components/core/Dashboard/MyProfile";
-import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./Components/core/Auth/PrivateRoute";
-import Error from './pages/Error';
-import Settings from './Components/core/Dashboard/Settings'
-import EnrolledCourses from "./Components/core/Dashboard/EnrolledCourses";
-import Cart from "./Components/core/Dashboard/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
-import AddCourse from "./Components/core/Dashboard/AddCourse";
-import MyCourses from "./Components/core/Dashboard/AddCourse/MyCourses";
-import EditCourse from "./Components/core/Dashboard/AddCourse/EditCourse";
-import Catalog from "./pages/Catalog";
-import CourseDetails from "./pages/CourseDetails";
-import ViewCourse from "./pages/ViewCourse";
-import VideoDetails from "./Components/core/ViewCourse/VideoDetails";
-import Instructor from "./Components/core/Dashboard/Instructor";
+const Login = lazy(() => import('./pages/Login'));
+const Signup = lazy(() => import("./pages/Signup"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const UpdatePassword = lazy(() => import("./pages/UpdatePassword"));
+const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import('./pages/Contact'));
+const MyProfile = lazy(() => import("./Components/core/Dashboard/MyProfile"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Error = lazy(() => import('./pages/Error'));
+const Settings = lazy(() => import('./Components/core/Dashboard/Settings'));
+const EnrolledCourses = lazy(() => import("./Components/core/Dashboard/EnrolledCourses"));
+const Cart = lazy(() => import("./Components/core/Dashboard/Cart"));
+const AddCourse = lazy(() => import("./Components/core/Dashboard/AddCourse"));
+const MyCourses = lazy(() => import("./Components/core/Dashboard/AddCourse/MyCourses"));
+const EditCourse = lazy(() => import("./Components/core/Dashboard/AddCourse/EditCourse"));
+const Catalog = lazy(() => import("./pages/Catalog"));
+const CourseDetails = lazy(() => import("./pages/CourseDetails"));
+const ViewCourse = lazy(() => import("./pages/ViewCourse"));
+const VideoDetails = lazy(() => import("./Components/core/ViewCourse/VideoDetails"));
+const Instructor = lazy(() => import("./Components/core/Dashboard/Instructor"));
+const AssistantWidget = lazy(() => import("./Components/core/Assistant/AssistantWidget"));
 
 function App() {
 
@@ -35,6 +37,7 @@ function App() {
   return (
    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter pt-14">
     <Navbar/>
+    <Suspense fallback={<div className="grid min-h-[60vh] place-items-center"><div className="spinner" /></div>}>
     <Routes>
       <Route path="/" element={<Home/>} />
       <Route path="/catalog/:catalogName" element={<Catalog/>} />
@@ -152,6 +155,8 @@ function App() {
       <Route path="*" element={<Error/>}/>
     
     </Routes>
+    </Suspense>
+    <Suspense fallback={null}><AssistantWidget /></Suspense>
 
    </div>
   );

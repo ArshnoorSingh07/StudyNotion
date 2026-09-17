@@ -41,7 +41,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prebuild": "node scripts/prepare-swiper-css.cjs",
+    "prestart": "node scripts/prepare-swiper-css.cjs",
+    "lint": "eslint src --ext .js,.jsx"
   },
   "eslintConfig": {
     "extends": [
@@ -62,6 +65,7 @@
     ]
   },
   "devDependencies": {
+    "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7"
   }
 }

@@ -31,7 +31,7 @@ exports.createSection = async (req, res) => {
             .populate({
                 path: "courseContent",
                 populate: {
-                    path: "subSection",
+                    path: "subSection", select: "+assistantNotes",
                 },
             })
             .exec();
@@ -66,7 +66,7 @@ exports.updateSection = async (req, res) => {
         .populate({
             path:"courseContent",
             populate:{
-                path:"subSection",
+                path: "subSection", select: "+assistantNotes",
             },
         })
         .exec();
@@ -113,7 +113,7 @@ exports.deleteSection = async (req, res) => {
         const course = await Course.findById(courseId).populate({
             path:"courseContent",
             populate: {
-                path: "subSection"
+                path: "subSection", select: "+assistantNotes",
             }
         })
         .exec();
