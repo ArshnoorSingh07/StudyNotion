@@ -116,6 +116,8 @@ The default model is `openai/gpt-oss-20b`, configurable through `GROQ_MODEL`. Ne
 
 ## System Architecture
 
+StudyNotion follows a client-server architecture where the frontend communicates with the backend through REST APIs.
+
 ```mermaid
 flowchart TD
     UI[React frontend] -->|REST requests| API[Express backend]
@@ -128,6 +130,10 @@ flowchart TD
     Retrieval --> AI[Groq: generate answer]
     AI --> API
 ```
+
+![Architecture diagram](screenshots/architecture.png)
+
+---
 
 API credentials stay on the backend. The frontend receives the public Razorpay key ID and API base URL through its build-time environment variables.
 
