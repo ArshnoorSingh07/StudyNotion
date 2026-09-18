@@ -103,16 +103,11 @@ function createAssistantController(deps = {}) {
         res.set({ 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache, no-transform', 'X-Accel-Buffering': 'no' });
         res.flushHeaders();
         let answer = '';
-        if (!passages.length) {
-          answer = 'I couldn’t find enough relevant material in this course to answer that reliably. Try naming the topic or opening the relevant lecture. Your instructor can add lesson notes or a transcript to help me explain it.';
-          send('delta', { text: answer });
-        } else {
-          for await (const text of generate({ question: question.trim(), passages, history: lock.messages, signal: abort.signal })) {
-            if (abort.signal.aborted) throw fail(504, 'The answer took too long. Please try again.');
-            answer += text;
-            if (answer.length > 16000) throw fail(502, 'The answer was too long. Try asking a more specific question.');
-            send('delta', { text });
-          }
+        for await (const text of generate({ question: question.trim(), passages, courseName: course.courseName, history: lock.messages, signal: abort.signal })) {
+          if (abort.signal.aborted) throw fail(504, 'The answer took too long. Please try again.');
+          answer += text;
+          if (answer.length > 16000) throw fail(502, 'The answer was too long. Try asking a more specific question.');
+          send('delta', { text });
         }
         if (!answer.trim()) throw fail(502, 'No answer was returned. Please try again.');
         // Recheck access/content after generation so revoked or deleted courses are not saved as a new response.

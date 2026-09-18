@@ -125,6 +125,8 @@ async function verifyPayment(bodyData, token, navigate, dispatch){
     } catch(error){
         console.log("PAYMENT VERIFY ERROR .....",error);
         toast.error("Could not Verify Payment");
+    } finally {
+        dispatch(setPaymentLoading(false));
+        toast.dismiss(toastId);
     }
-    toast.dismiss(toastId);
 }   

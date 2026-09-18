@@ -129,7 +129,7 @@ exports.login = async (req, res) => {
         }
 
         // Find user with provided email
-        const user = await User.findOne({ email }).populate("additionalDetails");
+        const user = await User.findOne({ email }).select("+password").populate("additionalDetails");
 
         // If user not found with provided email
         if (!user) {
@@ -151,7 +151,6 @@ exports.login = async (req, res) => {
             );
 
             // Save token to user document in database
-            user.token = token;
             user.password = undefined;
             // Set cookie for token and return success response
             const options = {
@@ -183,6 +182,9 @@ exports.login = async (req, res) => {
 exports.sendotp = async (req, res) => {
     try {
         const { email } = req.body;
+        if (typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(400).json({ success: false, message: 'Provide a valid email address.' });
+        }
 
         // Check if user is already present
         // Find user with provided email
@@ -203,22 +205,11 @@ exports.sendotp = async (req, res) => {
             lowerCaseAlphabets: false,
             specialChars: false,
         });
-        const result = await OTP.findOne({ otp: otp });
-        console.log("Result is Generate OTP Func");
-        console.log("OTP", otp);
-        console.log("Result", result);
-        while (result) {
-            otp = otpGenerator.generate(6, {
-                upperCaseAlphabets: false,
-            });
-        }
-        const otpPayload = { email, otp };
-        const otpBody = await OTP.create(otpPayload);
-        console.log("OTP Body", otpBody);
+        // OTPs are verified together with their email; different emails can share a code.
+        await OTP.create({ email, otp });
         res.status(200).json({
             success: true,
             message: `OTP Sent Successfully`,
-            otp,
         });
     } catch (error) {
         console.log(error.message);
@@ -230,7 +221,7 @@ exports.sendotp = async (req, res) => {
 exports.changePassword = async (req, res) => {
   try {
     // Get user data from req.user
-    const userDetails = await User.findById(req.user.id)
+    const userDetails = await User.findById(req.user.id).select("+password")
 
     // Get old password, new password, and confirm new password from req.body
     const { oldPassword, newPassword } = req.body

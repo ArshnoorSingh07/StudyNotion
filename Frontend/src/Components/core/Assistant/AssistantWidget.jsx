@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { ArrowUp, ArrowUpRight, BookOpen, ChevronDown, GraduationCap, LoaderCircle, MessageCircle, Plus, RotateCcw, Sparkles, Square, X } from 'lucide-react';
 import { askAssistant, clearAssistantHistory, getAssistantCourses, getAssistantHistory } from '../../../services/operations/assistantAPI';
 import './assistant.css';
@@ -200,7 +201,7 @@ function StudyAssistant({ token, user }) {
             </div> : messages.map((message, index) => <div key={`${message.requestId || 'saved'}-${index}`} className={`sn-ai-message sn-ai-${message.role}`}>
               {message.role === 'assistant' && <div className="sn-ai-message-label"><Sparkles size={13} /> STUDY COMPANION</div>}
               <div className={`sn-ai-bubble ${message.isError ? 'sn-ai-failed' : ''}`}>
-                {message.content ? <ReactMarkdown components={{ a: ({ children }) => <span>{children}</span>, img: () => null }}>{message.content}</ReactMarkdown>
+                {message.content ? <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ table: ({ children }) => <div className="sn-ai-table-wrap" tabIndex={0} role="region" aria-label="Scrollable table"><table>{children}</table></div>, a: ({ children }) => <span>{children}</span>, img: () => null }}>{message.content}</ReactMarkdown>
                   : <span className="sn-ai-thinking" role="status"><i /><i /><i /><span>Connecting the dots</span></span>}
               </div>
               {message.sources?.length > 0 && !message.isError && <div className="sn-ai-sources"><span>COURSE REFERENCES</span>{message.sources.map(source => <Link key={source.id} to={source.url} title={source.excerpt} onClick={() => setOpen(false)}><BookOpen size={12} /><span>[{source.id}] {source.title}</span><ArrowUpRight size={12} /></Link>)}</div>}
@@ -210,7 +211,7 @@ function StudyAssistant({ token, user }) {
 
         <form className="sn-ai-composer" onSubmit={event => { event.preventDefault(); sendQuestion(); }}>
           <div className="sn-ai-input-wrap">
-            <textarea ref={textarea} aria-label="Ask your study companion" placeholder={courseId ? 'Ask a question, find your clarity…' : 'Choose an enrolled course to begin'} value={input} rows={2} maxLength={2000} disabled={!ready || busy} onChange={event => setInput(event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); sendQuestion(); } }} />
+            <textarea ref={textarea} aria-label="Ask your study companion" placeholder={courseId ? 'Ask a question, find your clarity…' : 'Choose an enrolled course to begin'} value={input} rows={2} maxLength={2000} disabled={!ready} onChange={event => setInput(event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); sendQuestion(); } }} />
             {busy && activeRequest.current ? <button type="button" className="sn-ai-send" aria-label="Stop answer" onClick={() => activeRequest.current?.abort()}><Square size={15} fill="currentColor" /></button>
               : <button type="submit" className="sn-ai-send" aria-label="Send question" disabled={!input.trim() || !ready || busy}><ArrowUp size={20} /></button>}
           </div>

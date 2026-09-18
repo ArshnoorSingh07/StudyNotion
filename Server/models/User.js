@@ -62,7 +62,12 @@ const userSchema = new mongoose.Schema({
     ],
     // Add timestamps for when the document is created and last modified
 },
-{ timestamps: true }
+{ timestamps: true, toJSON: { transform(_doc, ret) {
+    delete ret.password;
+    delete ret.token;
+    delete ret.resetPasswordExpires;
+    return ret;
+} } }
 );
 
 module.exports = mongoose.model("User",userSchema);

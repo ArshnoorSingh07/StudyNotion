@@ -23,7 +23,7 @@ function response() {
   });
 }
 function harness(options = {}) {
-  const writes = []; const filters = []; let generated = 0;
+  const writes = []; const filters = []; const calls = []; let generated = 0;
   const session = { _id: 'session', messages: options.messages || [] };
   const controller = createAssistantController({
     User: { findById: () => query(options.deleted ? null : { accountType: 'Student', active: !options.inactive }) },
@@ -34,11 +34,11 @@ function harness(options = {}) {
       findOne: () => query(session), exists: async () => false,
     },
     AssistantUsage: { findOneAndUpdate: async () => ({ count: options.quota || 1 }) },
-    generateAnswer: async function* (data) { generated++; assert.equal(data.passages[0].lectureId, lectureId);
+    generateAnswer: async function* (data) { generated++; calls.push(data);
       if (options.failure) throw Error('provider secret must not leak');
       yield 'A closure remembers its lexical scope [1].'; },
   });
-  return { controller, writes, filters, generated: () => generated };
+  return { controller, writes, filters, calls, generated: () => generated };
 }
 const request = body => ({ user: { id: userId }, body: { courseId, question: 'How do closures retain lexical scope?', ...body } });
 
@@ -79,10 +79,23 @@ test('valid chat streams and saves a bounded history with course references', as
   assert.equal(saved.length, 40); assert.match(saved.at(-1).sources[0].url, /view-course/);
   assert.equal(h.writes.at(-1).update.$set.lockedUntil.getTime(), 0);
 });
-test('unknown material returns an honest answer without calling Groq', async () => {
-  const h = harness(); const res = response(); await h.controller.chat(request({ question: 'quantum photosynthesis' }), res);
-  assert.equal(h.generated(), 0); assert.ok(res.chunks.join('').includes('couldn’t find enough'));
+test('questions absent from notes reach the model with history and no fabricated sources', async () => {
+  for (const question of ['What is useEffect?', 'What is useState hook?', 'quantum photosynthesis']) {
+    const messages = [{ role: 'user', content: 'Explain closures' }, { role: 'assistant', content: 'A closure retains scope.' }];
+    const h = harness({ messages }); const res = response();
+    await h.controller.chat(request({ question }), res);
+    assert.equal(h.generated(), 1);
+    assert.deepEqual(h.calls[0].passages, []);
+    assert.deepEqual(h.calls[0].history, messages);
+    assert.equal(h.calls[0].question, question);
+    assert.equal(h.calls[0].courseName, course.courseName);
+    assert.ok(res.chunks.join('').includes('"type":"done"'));
+    const saved = h.writes.find(write => write.update.$set?.messages).update.$set.messages;
+    assert.deepEqual(saved.at(-1).sources, []);
+    assert.equal(h.writes.at(-1).update.$set.lockedUntil.getTime(), 0);
+  }
 });
+
 test('rejects object injection, oversized questions, and unrelated lectures before generation', async () => {
   for (const body of [{ courseId: { $ne: null } }, { question: 'x'.repeat(2001) }, { lectureId: 'aaaaaaaaaaaaaaaaaaaaaaaa' }]) {
     const h = harness(); const res = response(); await h.controller.chat(request(body), res);

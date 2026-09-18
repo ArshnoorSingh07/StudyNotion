@@ -101,3 +101,11 @@
 @media (prefers-reduced-motion: reduce) {
   .sn-ai *, .sn-ai *::before, .sn-ai *::after { animation: none !important; transition: none !important; }
 }
+
+.sn-ai-table-wrap { max-width: 100%; overflow-x: auto; margin: 12px 0; border: 1px solid #ffffff18; border-radius: 10px; }
+.sn-ai-table-wrap table { width: 100%; border-collapse: collapse; font-size: 11px; line-height: 1.6; }
+.sn-ai-table-wrap th, .sn-ai-table-wrap td { min-width: 110px; padding: 9px 11px; text-align: left; vertical-align: top; border-bottom: 1px solid #ffffff12; }
+.sn-ai-table-wrap th { background: #272338; color: #eee7ff; font-weight: 600; }
+.sn-ai-table-wrap tr:last-child td { border-bottom: 0; }
+.sn-ai-bubble :not(pre) > code { padding: 2px 4px; background: #b8a4ff10; border-radius: 4px; }
+.sn-ai-bubble pre { margin: 12px 0; line-height: 1.65; }

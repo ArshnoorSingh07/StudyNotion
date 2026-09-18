@@ -42,8 +42,11 @@ export async function askAssistant(token, body, signal, onEvent) {
         if (!line) continue;
         const event = JSON.parse(line.slice(5).trim());
         if (event.type === 'error') throw new Error(event.message);
-        if (event.type === 'done') completed = true;
         onEvent(event);
+        if (event.type === 'done') {
+          completed = true;
+          return;
+        }
       }
     }
     if (!completed) throw new Error('The connection was interrupted. Please try again.');
